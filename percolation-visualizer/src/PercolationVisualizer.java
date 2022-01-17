@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdDraw;
 import java.awt.Font;
 import java.util.concurrent.TimeUnit;
 
-public class PercolationVisual {
+public class PercolationVisualizer {
     
     public static void main(String[] args) throws InterruptedException {
 
@@ -101,7 +101,7 @@ public class PercolationVisual {
         StdDraw.rectangle(0.5, 0.5, 0.3, 0.4);
 
         StdDraw.text(0.5, 1 - 0.2, "RESULTS");
-        StdDraw.text(0.5, 1 - 0.3, "Mean sites open = " + Math.round(mean*100)/100d + "%");
+        StdDraw.text(0.5, 1 - 0.3, "Mean sites open = " + Math.round(mean*10000)/100d + "%");
         StdDraw.text(0.5, 1 - 0.35, "For a " + n + " by " + n + " grid, that is " + (int) (n*n * (sum / t)) + " sites.");
         StdDraw.text(0.5, 1 - 0.4, "Standard Deviation = " + Math.round(stdDev*1000)/1000d);
     }
