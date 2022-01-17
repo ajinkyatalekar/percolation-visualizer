@@ -10,13 +10,15 @@ public class PercolationVisualizer {
     
     public static void main(String[] args) throws InterruptedException {
 
-        StdOut.print("Sample size & trials: ");
+        StdOut.print("Sample size and trials: ");
         int n = StdIn.readInt();
         int t = StdIn.readInt();
         
         Font tr = new Font("Trebuchet MSTre", Font.PLAIN, 18);
         double buf = 0.01 * 1 / n;
         double[] ratio = new double[t];
+
+        boolean realTimeFlow = false;
 
         for (int k = 0; k < t; k++) {
 
@@ -38,14 +40,14 @@ public class PercolationVisualizer {
                     StdDraw.filledRectangle((1d / (double) n) *ny + (1d / (double) (2*n)) , (1d / (double) n) *nx + (1d / (double) (2*n)) , (1d / (double) (2*n)) - buf, (1d / (double) (2*n)) - buf);
 
                     // Draws flow in real time; very slow
-                    /*
-                    StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
-                    for (int i = 0; i < n*n; i++) {
-                        if (p.isFull(i/n+1, i%n+1) && !p.printed[i]) {
-                            StdDraw.filledRectangle((1d / (double) n) * (i%n) + (1d / (double) (2*n)) , (1d / (double) n) * (n-1-i/n) + (1d / (double) (2*n)) , (1d / (double) (2*n)) - buf, (1d / (double) (2*n)) - buf);
+                    if (realTimeFlow) {
+                        StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
+                        for (int i = 0; i < n*n; i++) {
+                            if (p.isFull(i/n+1, i%n+1) && !p.printed[i]) {
+                                StdDraw.filledRectangle((1d / (double) n) * (i%n) + (1d / (double) (2*n)) , (1d / (double) n) * (n-1-i/n) + (1d / (double) (2*n)) , (1d / (double) (2*n)) - buf, (1d / (double) (2*n)) - buf);
+                            }
                         }
                     }
-                    */
                 }
             }
 
