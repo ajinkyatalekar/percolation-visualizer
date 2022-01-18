@@ -6,13 +6,12 @@ A visualizer for the percolation problem. Uses *Weighted Union Find with Path Co
 **NEW:** Interactive mode where you can open and fill sites on the grid using your mouse.
 
 ## Visuals
-<!-- <img src="https://user-images.githubusercontent.com/91043799/149831257-e0183287-bb04-482d-9bcd-7d3c71bdb3f7.jpg" width=40% height=40%>
-<img src="https://user-images.githubusercontent.com/91043799/149831623-f8e858f7-f219-4c59-9951-82740e45d98d.jpg" width=40% height=40%> -->
 <p align = "center">
-<img src="https://user-images.githubusercontent.com/91043799/149837107-c046849e-f399-4e63-8a4d-212f469214b9.gif" width=40% height=40%>
-<img src="https://user-images.githubusercontent.com/91043799/149838081-1e25760c-60dd-4683-ba34-95645e1e70a6.gif" width=40% height=40%>
-<img src="https://user-images.githubusercontent.com/91043799/149963700-489f89c6-6687-42b7-b379-d0dbdcf07021.gif" width=40% height=40%>
-</p>  
+<img src="https://user-images.githubusercontent.com/91043799/149837107-c046849e-f399-4e63-8a4d-212f469214b9.gif" width=45% height=45%>
+<img src="https://user-images.githubusercontent.com/91043799/149963700-489f89c6-6687-42b7-b379-d0dbdcf07021.gif" width=45% height=45%>
+<img src="https://user-images.githubusercontent.com/91043799/149838081-1e25760c-60dd-4683-ba34-95645e1e70a6.gif" width=45% height=45%>
+<img src="https://user-images.githubusercontent.com/91043799/149982724-a86b7a83-2d05-4bf0-b4c5-b3ef037da0d2.gif" width=45% height=45%>
+</p>
 
 **Note:** Real-time percolation is now way faster, the shown gif is from a previous version.
 
