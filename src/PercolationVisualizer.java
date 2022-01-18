@@ -16,32 +16,51 @@ public class PercolationVisualizer {
     // Buffer -> Reduce square site size to show border
     public static double buffer;
     public static double siteHalfLength;
+    public static boolean fillPink;
 
     public static double[] ratio;
-    public static boolean realTimeFlow;
+    public static final boolean realTimeFlow = true;
     public static boolean[] isDrawn;
 
     public static Percolation p;
+    public static boolean isInteractive;
 
     public static void main(String[] args) throws Exception {
         setup();
-        loop();
+        if (isInteractive) {
+            interactiveMode();
+        } else {
+            normalMode();
+        }
     }
 
-    public static void setup() {
-        StdOut.print("Sample size and trials: ");
+    public static void setup() throws Exception {
+        StdOut.print("'z' for normal, 'x' for interactive trials: ");
+        String s = StdIn.readLine();
+
+        if (s.toLowerCase().equals("x")) {
+            isInteractive = true;
+        } else if (s.toLowerCase().equals("z")) {
+            isInteractive = false;
+        } else {
+            throw new Exception("Invalid Input");
+        }
+
+        StdOut.print("Sample size: ");
         n = StdIn.readInt();
-        t = StdIn.readInt();
         
         buffer = 0.01 / n;
-        siteHalfLength = (1d / (double) (2*n)) - buffer;
-        StdDraw.setFont(fontItalic);
-
-        ratio = new double[t];
-        realTimeFlow = true;
+        siteHalfLength = (1d / (double) (2*n));
     }
 
-    public static void loop() throws Exception {
+    public static void normalMode() throws Exception {
+        StdOut.print("trials: ");
+        t = StdIn.readInt();
+
+        ratio = new double[t];
+        fillPink = false;
+        StdDraw.setFont(fontItalic);
+
         for (int k = 0; k < t; k++) {
             StdDraw.clear(StdDraw.BLACK);
 
@@ -81,17 +100,91 @@ public class PercolationVisualizer {
         fullStats();
     }
 
+    public static void interactiveMode() throws Exception {
+        p = new Percolation(n);
+        isDrawn = new boolean[n*n];
+        int dif = (int) Math.sqrt(n) / 5;
+
+        StdDraw.clear(StdDraw.BLACK);
+        StdDraw.setPenColor(StdDraw.PINK);
+        StdDraw.setPenRadius();
+        StdDraw.setFont(fontItalic);
+
+        buffer = 0;
+        fillPink = true;
+
+        // Grid
+        if (n <= 50) {
+            for (int i = 0; i < n; i++) {
+                StdDraw.line(0, siteHalfLength*2*i, 1, siteHalfLength*2*i);
+                StdDraw.line(siteHalfLength*2*i, 0, siteHalfLength*2*i, 1);
+            }
+        }
+
+        boolean dataShown = false;
+        while(true) {
+            if (StdDraw.isMousePressed()) {
+                double x = StdDraw.mouseX();
+                double y = StdDraw.mouseY();
+
+                int col = (int) (x * n);
+                int row = n - (int) (y * n) - 1;
+
+                if (col >= 0 && col < n && row >=0 && row < n) {
+                    if (p.open(row, col)) {
+                        paintSite(row, col, "open");
+                    }
+
+                    for (int i = 1; i < dif; i++) {
+                        if (row+i < n) {
+                            if (p.open(row+i, col)) {
+                                paintSite(row+i, col, "open");
+                            }
+                        }
+
+                        if (col+i < n) {
+                            if (p.open(row, col+i)) {
+                                paintSite(row, col+i, "open");
+                            }
+                        }
+
+                        if (row-i >= 0) {
+                            if (p.open(row-i, col)) {
+                                paintSite(row-i, col, "open");
+                            }
+                        }
+
+                        if (col-i >= 0) {
+                            if (p.open(row, col-i)) {
+                                paintSite(row, col-i, "open");
+                            }
+                        }
+                    }
+
+                    if (realTimeFlow)
+                        flow(row, col);
+
+                    if (p.percolates() && !dataShown) {
+                        quickStats(0);
+                        dataShown = true;
+                    }
+                }
+            }
+        }
+    }
+
     public static boolean paintSite(int row, int col, String type) throws Exception {
         type = type.toLowerCase();
 
         switch(type) {
             case "open": StdDraw.setPenColor(StdDraw.WHITE); break;
             case "fill": StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE); break;
+            case "fillalt": StdDraw.setPenColor(StdDraw.PINK); break;
             case "close": StdDraw.setPenColor(StdDraw.BLACK); break;
-            default: throw new Exception("INVALID TYPE. VALID: [open, fill, close]");
+            default: throw new Exception("INVALID TYPE. VALID: [open, fill, fillalt, close]");
         }
 
-        StdDraw.filledRectangle((1d / (double) n) * col + (1d / (double) (2*n)) , (1d / (double) n) * (n-1 - row) + (1d / (double) (2*n)) , siteHalfLength, siteHalfLength);
+        StdDraw.filledRectangle((1d / (double) n) * col + (1d / (double) (2*n)) , (1d / (double) n) * (n-1 - row) + (1d / (double) (2*n)) , siteHalfLength-buffer, siteHalfLength-buffer);
         return true;
     }
 
@@ -100,8 +193,16 @@ public class PercolationVisualizer {
             return;
         }
 
+        String s;
+        if (fillPink) {
+            s = "fillalt";
+        }
+        else {
+            s = "fill";
+        }
+
         if (p.isFull(row, col)) {
-            paintSite(row, col, "fill");
+            paintSite(row, col, s);
             isDrawn[row*n+col] = true;
             
             if (row > 0) {
@@ -135,17 +236,23 @@ public class PercolationVisualizer {
     }
 
     public static void quickStats(int k) {
-            ratio[k] = p.numberOfOpenSites() / (double) (n*n);
-            StdOut.println("Sites open = " + (int) (ratio[k] * 100000) / 1000d + "%");
+        double mean = p.numberOfOpenSites() / (double) (n*n);
+
+        if (k >= 0 && k < t) {
+            ratio[k] = mean;
+        }
+        
+
+            StdOut.println("Sites open = " + (int) (mean * 100000) / 1000d + "%");
 
             // Display percolation results on canvas
             StdDraw.setPenColor(StdDraw.WHITE);
-            StdDraw.filledRectangle(0.5, 1-0.1, 0.2, 0.075);
+            StdDraw.filledRectangle(0.5, 1-0.1, 0.19, 0.05);
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.rectangle(0.5, 1-0.1, 0.2, 0.075);
+            StdDraw.rectangle(0.5, 1-0.1, 0.19, 0.05);
             
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(0.5, 1-0.1, "Sites open = " + (int) (ratio[k] * 10000) / 100d + "%");
+            StdDraw.text(0.5, 1-0.1, "Sites open = " + (int) (mean * 10000) / 100d + "%");
     }
 
     public static void fullStats() {
