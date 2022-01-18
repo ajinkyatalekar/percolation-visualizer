@@ -11,9 +11,10 @@ A visualizer for the percolation problem. Uses *Weighted Union Find with Path Co
 <p align = "center">
 <img src="https://user-images.githubusercontent.com/91043799/149837107-c046849e-f399-4e63-8a4d-212f469214b9.gif" width=40% height=40%>
 <img src="https://user-images.githubusercontent.com/91043799/149838081-1e25760c-60dd-4683-ba34-95645e1e70a6.gif" width=40% height=40%>
+<img src="https://user-images.githubusercontent.com/91043799/149963700-489f89c6-6687-42b7-b379-d0dbdcf07021.gif" width=40% height=40%>
 </p>  
 
-**Note:** Real-time is now way faster, the shown gif is from a previous version.
+**Note:** Real-time percolation is now way faster, the shown gif is from a previous version.
 
 ## Installation
 Yank the entire directory.  
