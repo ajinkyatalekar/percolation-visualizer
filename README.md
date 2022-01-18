@@ -8,8 +8,10 @@ Includes real-time flow which looks very pretty but is performance heavy, do NOT
 ## Visuals
 <!-- <img src="https://user-images.githubusercontent.com/91043799/149831257-e0183287-bb04-482d-9bcd-7d3c71bdb3f7.jpg" width=40% height=40%>
 <img src="https://user-images.githubusercontent.com/91043799/149831623-f8e858f7-f219-4c59-9951-82740e45d98d.jpg" width=40% height=40%> -->
+<p align = "center">
 <img src="https://user-images.githubusercontent.com/91043799/149837107-c046849e-f399-4e63-8a4d-212f469214b9.gif" width=40% height=40%>
 <img src="https://user-images.githubusercontent.com/91043799/149838081-1e25760c-60dd-4683-ba34-95645e1e70a6.gif" width=40% height=40%>
+</p>
 
 ## Installation
 Yank the entire directory and run  <code>PercolationVisualizer.java</code>  
