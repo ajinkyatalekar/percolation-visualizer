@@ -8,18 +8,23 @@ import java.util.concurrent.TimeUnit;
 
 public class PercolationVisualizer {
     
+    // Change these as you need
+    public static final boolean realTimeFlow = true;
+    public static final int waitAfterSiteOpen = 0; // Wait after each site is opened (in ms)
+    public static final int waitAfterTrial = 3000; // Wait after each trial (in ms)
+
+
     public static int n;
     public static int t;
 
     public static Font fontItalic = new Font("Sans Serif", Font.ITALIC, 18);
     public static Font fontBold = new Font("Sans Serif", Font.BOLD, 18);
-    // Buffer -> Reduce square site size to show border
     public static double buffer;
+    // Buffer -> Reduce square site size to show border
     public static double siteHalfLength;
     public static boolean fillPink;
 
     public static double[] ratio;
-    public static final boolean realTimeFlow = true;
     public static boolean[] isDrawn;
 
     public static Percolation p;
@@ -68,6 +73,7 @@ public class PercolationVisualizer {
             isDrawn = new boolean[n*n];
 
             while (!p.percolates()) {
+                TimeUnit.MILLISECONDS.sleep(waitAfterSiteOpen);
                 int row = StdRandom.uniform(n);
                 int col = StdRandom.uniform(n);
 
@@ -94,7 +100,7 @@ public class PercolationVisualizer {
             }
 
             quickStats(k);
-            TimeUnit.MILLISECONDS.sleep(1500);
+            TimeUnit.MILLISECONDS.sleep(waitAfterTrial);
         }
 
         fullStats();
