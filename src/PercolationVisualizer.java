@@ -204,26 +204,29 @@ public class PercolationVisualizer {
         if (p.isFull(row, col)) {
             paintSite(row, col, s);
             isDrawn[row*n+col] = true;
-            
-            if (row > 0) {
-                if (!isDrawn(row-1, col))
-                    flow(row-1, col);
+
+            // Down
+            if (row < n-1) {
+                if (!isDrawn(row+1, col))
+                    flow(row+1, col);
             }
 
+            // Left
             if (col > 0) {
                 if (!isDrawn(row, col-1))
                     flow(row, col-1);
             }
 
+            // Right
             if (col < n-1) {
                 if (!isDrawn(row, col+1))
                     flow(row, col+1);
             }
-
-
-            if (row < n-1) {
-                if (!isDrawn(row+1, col))
-                    flow(row+1, col);
+            
+            // Up
+            if (row > 0) {
+                if (!isDrawn(row-1, col))
+                    flow(row-1, col);
             }
         }
     }
@@ -270,9 +273,9 @@ public class PercolationVisualizer {
         stdDev = Math.sqrt(stdDev);
 
         StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.filledRectangle(0.5, 0.5, 0.3, 0.3);
+        StdDraw.filledRectangle(0.5, 0.5, 0.35, 0.3);
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.rectangle(0.5, 0.5, 0.3, 0.3);
+        StdDraw.rectangle(0.5, 0.5, 0.35, 0.3);
 
         StdDraw.text(0.5, 1 - 0.3, "RESULTS");
         StdDraw.text(0.5, 1 - 0.4, "Mean sites open = " + Math.round(mean*10000)/100d + "%");
