@@ -2,29 +2,29 @@
 public class Wqupc {
     
 
-    // Array containing all the n*n elements in a n by n grid
-    private int[] id;
-
-    // Parent array
+    // Array containing the parents of all the n*n elements in a n by n grid
     private int[] parent;
 
-    public Wqupc(int n) {
-        id = new int[n];
-        parent = new int[n];
+    // Size array
+    private int[] size;
 
-        for (int i = 0; i < id.length; i++) {
-            id[i] = i;
+    public Wqupc(int n) {
+        parent = new int[n];
+        size = new int[n];
+
+        for (int i = 0; i < parent.length; i++) {
+            parent[i] = i;
         }
     }
 
     // Connects p and q elements of the array to the same root
     public void union(int p, int q) {
-        if (parent[find(p)] > parent[find(q)]) {
-            id[find(q)] = find(p);
-            parent[find(p)] += parent[find(q)];
+        if (size[find(p)] > size[find(q)]) {
+            parent[find(q)] = find(p);
+            size[find(p)] += size[find(q)];
         } else {
-            id[find(p)] = find(q);
-            parent[find(q)] += parent[find(p)];
+            parent[find(p)] = find(q);
+            size[find(q)] += size[find(p)];
         }
     }
 
@@ -34,9 +34,9 @@ public class Wqupc {
 
     // Returns the root
     public int find(int a) {
-        while (a != id[a]) {
-            id[a] = id[id[a]];
-            a = id[a];
+        while (a != parent[a]) {
+            parent[a] = parent[parent[a]];
+            a = parent[a];
         }
         return a;
     }
